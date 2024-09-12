@@ -15,12 +15,11 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Stuuser login(Stuuser stuuser) {
 
-
         return loginMapper.getBynp(stuuser);
     }
 
     @Override
-    public Teauser login(Teauser teauser) {
-        return loginMapper.getBynp(teauser);
+    public Teauser tlogin(Teauser teauser) {
+        return loginMapper.tgetBynp(teauser);
     }
 }

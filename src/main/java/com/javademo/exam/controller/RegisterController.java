@@ -32,12 +32,12 @@ public class RegisterController {
     }
     @PostMapping("/tregister")
     public Result register(@RequestBody Teauser teauser){
-        Teauser teauser1 = registerService.get(teauser);
+        Teauser teauser1 = registerService.tget(teauser);
 
         if (teauser1 != null) {
             return Result.error("该用户已存在");
         } else {
-            registerService.add(teauser);
+            registerService.tadd(teauser);
             return Result.success("注册成功");
         }
     }

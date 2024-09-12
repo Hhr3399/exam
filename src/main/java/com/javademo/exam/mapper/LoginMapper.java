@@ -12,6 +12,6 @@ public interface LoginMapper {
     @Select("select * from student where username=#{username} and password=#{password}")
     Stuuser getBynp(Stuuser stuuser);
 
-    @Select("select * from student where username=#{username} and password=#{password}")
-    Teauser getBynp(Teauser teauser);
+    @Select("select * from teacher where username=#{username} and password=#{password}")
+    Teauser tgetBynp(Teauser teauser);
 }

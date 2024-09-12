@@ -11,6 +11,7 @@ public class Question {
     private Integer id;
     private String content;
     private String answer;
+    private String single_score;
     private Integer courseId;
 
 }

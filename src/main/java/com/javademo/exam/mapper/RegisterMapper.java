@@ -19,10 +19,10 @@ public interface RegisterMapper {
 
 
     @Select("select * from teacher where username = #{username}")
-    Teauser get(Teauser teauser);
+    Teauser tget(Teauser teauser);
 
 
     @Insert("insert into teacher(username,password,name,gender,phonenumber,tid,college_id,course_id) " +
             "values (#{username},#{password},#{name},#{gender},#{phonenumber},#{tid},#{collegeId},#{courseId})")
-    void add(Teauser teauser);
+    void tadd(Teauser teauser);
 }

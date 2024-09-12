@@ -2,6 +2,8 @@ package com.javademo.exam.service.impl;
 
 
 import com.javademo.exam.mapper.StuMapper;
+import com.javademo.exam.pojo.Course;
+import com.javademo.exam.pojo.Question;
 import com.javademo.exam.pojo.Stuuser;
 import com.javademo.exam.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +17,19 @@ public class StuServiceImpl implements StuService {
     @Autowired
     private StuMapper stuMapper;
 
-    @Override
-    public List<Stuuser> list() {
-        return stuMapper.list();
-    }
 
     @Override
     public void update(Stuuser stuuser) {
         stuMapper.update(stuuser);
+    }
+
+    @Override
+    public List<Course> getCourse(Stuuser stuuser) {
+        return stuMapper.courselist(stuuser);
+    }
+
+    @Override
+    public Question getquestion(Integer questionid) {
+        return stuMapper.getquestion(questionid);
     }
 }

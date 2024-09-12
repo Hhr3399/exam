@@ -6,5 +6,5 @@ import com.javademo.exam.pojo.Teauser;
 
 public interface LoginService  {
     Stuuser login(Stuuser stuuser);
-    Teauser login(Teauser teauser);
+    Teauser tlogin(Teauser teauser);
 }

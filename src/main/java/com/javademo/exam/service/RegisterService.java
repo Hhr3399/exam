@@ -8,7 +8,7 @@ public interface RegisterService {
 
     void add(Stuuser stuuser);
 
-    Teauser get(Teauser teauser);
+    Teauser tget(Teauser teauser);
 
-    void add(Teauser teauser);
+    void tadd(Teauser teauser);
 }

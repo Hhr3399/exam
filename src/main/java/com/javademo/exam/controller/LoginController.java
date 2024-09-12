@@ -45,14 +45,14 @@ public class LoginController {
 
     @PostMapping("/tlogin")
     public  Result login(@RequestBody Teauser teauser){
-        Teauser teauser1 =loginService.login(teauser);
+        Teauser teauser1 =loginService.tlogin(teauser);
         if (teauser1 != null){
             Map<String, Object> claims =new HashMap<>();
             claims.put("id",teauser1.getId());
             claims.put("username",teauser1.getUsername());
             claims.put("password",teauser1.getPassword());
 
-            String jwt = JwtUtils.generateJwt(claims);   //jwt包含了当前学生的信息
+            String jwt = JwtUtils.generateJwt(claims);   //jwt包含了当前老师的信息
 
             return Result.success(jwt);//以后前端发送的每一次请求，在请求头中会携带token（存储着jwt令牌）
         }

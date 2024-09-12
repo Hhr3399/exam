@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TeaService {
 
-    List<Question> list();
+    List<Question> list(Integer courseId);
 
     void add(  Question question);
 
@@ -17,4 +17,8 @@ public interface TeaService {
     void delete(Integer id);
 
     List<Stuexam> stuscore();
+
+    void tupdate(Teauser teauser);
+
+    List<Stuexam> getsexam(Integer id);
 }

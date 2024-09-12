@@ -23,12 +23,12 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public Teauser get(Teauser teauser) {
-        return registerMapper.get(teauser);
+    public Teauser tget(Teauser teauser) {
+        return registerMapper.tget(teauser);
     }
 
     @Override
-    public void add(Teauser teauser) {
-        registerMapper.add(teauser);
+    public void tadd(Teauser teauser) {
+        registerMapper.tadd(teauser);
     }
 }

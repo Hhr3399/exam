@@ -18,8 +18,8 @@ public class TeaServiceImpl implements TeaService {
     private TeaMapper teaMapper;
 
     @Override
-    public List<Question> list() {
-        return teaMapper.list();
+    public List<Question> list(Integer courseId) {
+        return teaMapper.list(courseId);
     }
 
     @Override
@@ -40,5 +40,15 @@ public class TeaServiceImpl implements TeaService {
     @Override
     public List<Stuexam> stuscore() {
         return teaMapper.listscore();
+    }
+
+    @Override
+    public void tupdate(Teauser teauser) {
+        teaMapper.tupdate(teauser);
+    }
+
+    @Override
+    public List<Stuexam> getsexam(Integer id) {
+        return teaMapper.getsexam(id);
     }
 }
