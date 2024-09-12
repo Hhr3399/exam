@@ -11,7 +11,7 @@ public class Stuuser {
     private Integer id;
     private String username;
     private String password;
-    private String name;
+    private String student_name;
     private Integer gender;
     private String phonenumber;
     private String sid;

@@ -13,8 +13,8 @@ public interface RegisterMapper {
     Stuuser get(Stuuser stuuser);
 
 
-    @Insert("insert into student(username,password,name,gender,phonenumber,sid,college_id) " +
-            "values (#{username},#{password},#{name},#{gender},#{phonenumber},#{sid},#{collegeId})")
+    @Insert("insert into student(username,password,student_name,gender,phonenumber,sid,college_id) " +
+            "values (#{username},#{password},#{student_name},#{gender},#{phonenumber},#{sid},#{collegeId})")
     void add(Stuuser stuuser);
 
 

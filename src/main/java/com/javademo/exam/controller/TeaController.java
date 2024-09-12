@@ -21,7 +21,7 @@ public class TeaController {
     private TeaService teaService;
 
     /**
-     * 教师编辑个人信息
+     * 教师编辑个人信息  TODO 感觉token中的id解析不出来
      */
 
     @PutMapping("/tupdate")
@@ -36,7 +36,7 @@ public class TeaController {
     /**
      * 显示该课程考题
      */
-    @GetMapping("/{courseId}")
+    @GetMapping("/courseId/{courseId}")
     public Result list(@PathVariable Integer courseId) {
 
         List<Question> questions = teaService.list(courseId);
@@ -95,10 +95,10 @@ public class TeaController {
      * 展示某考生具体的考试情况
      */
 
-    @GetMapping("/{studentid}")
+    @GetMapping("/studentid/{studentid}")
     public Result getsexam(@PathVariable Integer studentid) {
 
-        List<Stuexam> stuexams= teaService.getsexam(studentid);
+        List<Stuexam> stuexams = teaService.getsexam(studentid);
         return Result.success(stuexams);
     }
 
@@ -106,7 +106,7 @@ public class TeaController {
      * 进入考试，开始答题
      */
 
-    public  Result examing(){
+    public Result examing() {
 
 
         return Result.success();

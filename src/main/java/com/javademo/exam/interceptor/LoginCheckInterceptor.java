@@ -25,6 +25,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(url.contains("login")){
             log.info("登录操作, 放行...");
             return true;
+        } else if (url.contains("register")) {
+            log.info("注册操作，放行");
+            return true;
+            
         }
 
         //3.获取请求头中的令牌（token）。

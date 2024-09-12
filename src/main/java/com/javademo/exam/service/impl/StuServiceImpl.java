@@ -5,6 +5,7 @@ import com.javademo.exam.mapper.StuMapper;
 import com.javademo.exam.pojo.Course;
 import com.javademo.exam.pojo.Question;
 import com.javademo.exam.pojo.Stuuser;
+import com.javademo.exam.pojo.Test;
 import com.javademo.exam.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public List<Course> getCourse(Stuuser stuuser) {
+    public List<Test> getCourse(Stuuser stuuser) {
         return stuMapper.courselist(stuuser);
     }
 

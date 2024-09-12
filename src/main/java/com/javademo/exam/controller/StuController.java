@@ -1,10 +1,7 @@
 package com.javademo.exam.controller;
 
 
-import com.javademo.exam.pojo.Course;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Result;
-import com.javademo.exam.pojo.Stuuser;
+import com.javademo.exam.pojo.*;
 import com.javademo.exam.service.StuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +16,28 @@ public class StuController {
     @Autowired
     private StuService stuService;
 
-
-    @PostMapping("/supdate")
+    /**
+     * TODO  感觉token中的id解析不出来
+     * @param stuuser
+     * @return
+     */
+    @PutMapping("/supdate")
     public Result update(@RequestBody Stuuser stuuser) {
 
         stuService.update(stuuser);
         return Result.success();
     }
 
+    /**
+     * 显示学生所选课程
+     * @param stuuser
+     * @return
+     */
     @GetMapping("/getcourse")
     public Result getcourse(@RequestBody Stuuser stuuser) {
 
-        List<Course> courses = stuService.getCourse(stuuser);
-        return Result.success(courses);
+        List<Test> tests = stuService.getCourse(stuuser);
+        return Result.success(tests);
     }
 
 
