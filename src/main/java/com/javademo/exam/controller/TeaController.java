@@ -102,14 +102,5 @@ public class TeaController {
         return Result.success(stuexams);
     }
 
-    /**
-     * 进入考试，开始答题
-     */
-
-    public Result examing() {
-
-
-        return Result.success();
-    }
 
 }

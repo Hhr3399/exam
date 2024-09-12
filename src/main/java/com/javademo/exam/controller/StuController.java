@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -18,6 +19,7 @@ public class StuController {
 
     /**
      * TODO  感觉token中的id解析不出来
+     *
      * @param stuuser
      * @return
      */
@@ -30,6 +32,7 @@ public class StuController {
 
     /**
      * 显示学生所选课程
+     *
      * @param stuuser
      * @return
      */
@@ -44,9 +47,25 @@ public class StuController {
     /**
      * 根据题目id获得题目
      */
-    @GetMapping("/{questionid}")
-    public Result getquestion(@PathVariable Integer questionid) {
-       Question question= stuService.getquestion(questionid);
+    @GetMapping("/{questionid}/{answername}")
+    public Result getquestion(@PathVariable Integer questionid, @PathVariable String answername) {
+        Stuexam stuexam = new Stuexam();
+        Question question = stuService.getquestion(questionid);
+
+        int totalscore = 0;
+        if (question.getAnswer().equals(answername)) {
+            totalscore += question.getSingle_score();
+        }
+        stuexam.setScore(totalscore);
+        stuexam.setStime(LocalDateTime.now());
+        return Result.success(stuexam);
+    }
+
+    /**
+     * 进入考试，开始答题
+     */
+    public Result examing() {
+
 
         return Result.success();
     }

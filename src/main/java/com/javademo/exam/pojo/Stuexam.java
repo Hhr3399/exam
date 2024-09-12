@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stuexam {
-    private String score;
+    private int score;
     private LocalDateTime stime;
     private LocalDateTime ftime;
     private String student_name;

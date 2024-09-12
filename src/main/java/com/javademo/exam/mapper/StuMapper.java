@@ -31,6 +31,6 @@ public interface StuMapper {
     List<Test> courselist(Stuuser stuuser);
 
 
-    @Select("select q.id,q.content,q.single from question q where id=#{id}")
+    @Select("select * from question q where id=#{id}")
     Question getquestion(Integer questionid);
 }

@@ -67,6 +67,7 @@ public interface TeaMapper {
      * @param id
      * @return
      */
-    @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=1\n")
+    @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime " +
+            "from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}")
     List<Stuexam> getsexam(Integer id);
 }
