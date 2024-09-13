@@ -68,6 +68,9 @@ public class TeaController {
         if (teauser.getPassword() == null) {
             teauser.setPassword(teauser2.getPassword());
         }
+        if (teauser.getCourseId()==null){
+            teauser.setCourseId(teauser2.getCourseId());
+        }
         System.out.println(teauser);
         teaService.tupdate(teauser);
         return Result.success();

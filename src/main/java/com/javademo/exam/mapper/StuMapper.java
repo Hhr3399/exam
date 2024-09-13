@@ -32,7 +32,7 @@ public interface StuMapper {
     Question getquestion(Integer questionid);
 
 
-    @Select("select * from student where id=#{id}")
+    @Select("select s.*,c.college_name from student s ,college c where s.id=#{id} and s.college_id=c.id")
     Stuuser gets(Integer id);
 
     @Select("select * from question where course_id=(select c.id from course c where course_name=#{name})")
@@ -43,7 +43,7 @@ public interface StuMapper {
             "                                                                 #{stime},\n" +
             "                                                                 #{ftime},\n" +
             "                                                                 (select id from student s where s.student_name=#{studentName}),\n" +
-            "                                                                 (select id from course c where c.course_name=#{coursName}))")
+            "                                                                 (select id from course c where c.course_name=#{courseName}))")
     void insertResult(Stuexam stuexam);
 
     @Select("select * from stuexam se where se.s_id = (select s.id from student s where s.student_name=#{studentName}) and se.course_id = (select c.id from course c where c.course_name=#{courseName})")

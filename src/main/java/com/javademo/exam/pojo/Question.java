@@ -13,5 +13,6 @@ public class Question {
     private String answer;
     private Integer singleScore;
     private Integer courseId;
+    private String courseName;
 
 }

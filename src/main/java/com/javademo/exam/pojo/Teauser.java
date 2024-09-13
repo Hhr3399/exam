@@ -18,5 +18,6 @@ public class Teauser {
     private String tid;
     private Integer collegeId;
     private Integer courseId;
-
+    private String collegeName;
+    private String courseName;
 }

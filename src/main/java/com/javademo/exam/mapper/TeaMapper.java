@@ -16,7 +16,7 @@ public interface TeaMapper {
      *
      * @return
      */
-    @Select("select * from question where course_id = #{courseId} ")
+    @Select("select q.*,c.course_name from question q,course c where course_id = #{courseId} and q.course_id=c.id ")
     List<Question> list(Integer courseId);
 
     /**
@@ -71,7 +71,11 @@ public interface TeaMapper {
             "from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}")
     List<Stuexam> getsexam(Integer id);
 
-
-    @Select("select * from teacher where id=#{id}")
+    /**
+     * 老师查询自己的信息
+     * @param id
+     * @return
+     */
+    @Select("select t.id,t.username,t.password,t.name,t.gender,t.tid,t.phonenumber,c.course_name,ce.college_name,t.college_id,t.course_id from teacher t, course c,college ce  where t.id=#{id} and t.course_id=c.id and t.college_id=ce.id\n")
     Teauser gettea(Integer id);
 }
