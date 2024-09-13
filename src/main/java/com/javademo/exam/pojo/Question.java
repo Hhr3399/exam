@@ -11,7 +11,7 @@ public class Question {
     private Integer id;
     private String content;
     private String answer;
-    private Integer single_score;
+    private Integer singleScore;
     private Integer courseId;
 
 }

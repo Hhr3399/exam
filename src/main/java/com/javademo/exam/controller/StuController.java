@@ -48,11 +48,11 @@ public class StuController {
         Stuuser stuuser2 = stuService.gets(id);
 
         System.out.println(stuuser2);
-        if (stuuser.getStudent_name() == null) {
-            stuuser.setStudent_name(stuuser2.getStudent_name());
+        if (stuuser.getStudentName() == null) {
+            stuuser.setStudentName(stuuser2.getStudentName());
         }
-        if (stuuser.getGender() == 0) {
-            stuuser.setGender(stuuser2.getGender());
+        if (stuuser.getGender() == null) {
+            stuuser.setGender((Integer) stuuser2.getGender());
         }
         if (stuuser.getPhonenumber() == null) {
             stuuser.setPhonenumber(stuuser2.getPhonenumber());
@@ -60,8 +60,8 @@ public class StuController {
         if (stuuser.getSid() == null) {
             stuuser.setSid(stuuser2.getSid());
         }
-        if (stuuser.getCollegeId() == 0) {
-            stuuser.setCollegeId(stuuser2.getCollegeId());
+        if ( stuuser.getCollegeId() == null) {
+            stuuser.setCollegeId((Integer) stuuser2.getCollegeId());
         }
         if (stuuser.getUsername() == null) {
             stuuser.setUsername(stuuser2.getUsername());
@@ -85,10 +85,22 @@ public class StuController {
      * @param stuuser
      * @return
      */
-    @GetMapping("/getcourse")
+    @PostMapping("/getcourse")
     public Result getcourse(@RequestBody Stuuser stuuser) {
-
         List<Test> tests = stuService.getCourse(stuuser);
+        System.out.println(tests);
+        for(Test t:tests){
+            List<Stuexam> stuexams=stuService.selectStatus(t);
+            System.out.println(stuexams);
+            if(stuexams.size()==0){
+                t.setStatus("未考试");
+            }
+            else{
+                t.setStatus("已考试");
+                Stuexam stuexam=stuService.selectLatest(t);
+                t.setScore(stuexam.getScore());
+            }
+        }
         return Result.success(tests);
     }
 
@@ -103,7 +115,7 @@ public class StuController {
 
         int totalscore = 0;
         if (question.getAnswer().equals(answername)) {
-            totalscore += question.getSingle_score();
+            totalscore += question.getSingleScore();
         }
         stuexam.setScore(totalscore);
         stuexam.setStime(LocalDateTime.now());
@@ -113,10 +125,17 @@ public class StuController {
     /**
      * 进入考试，开始答题
      */
-    public Result examing() {
 
+    @PostMapping("/exam")
+    public Result examing(@RequestBody Course course) {
+        List<Question> questions=stuService.selecttest(course.getName());
+        return Result.success(questions);
+    }
 
-        return Result.success();
+    @PostMapping("/saveResult")
+    public Result examresult(@RequestBody Stuexam stuexam){
+        stuService.insertResult(stuexam);
+        return Result.success("ok");
     }
 
 }

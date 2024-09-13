@@ -51,4 +51,9 @@ public class TeaServiceImpl implements TeaService {
     public List<Stuexam> getsexam(Integer id) {
         return teaMapper.getsexam(id);
     }
+
+    @Override
+    public Teauser gettea(Integer id) {
+        return teaMapper.gettea(id);
+    }
 }

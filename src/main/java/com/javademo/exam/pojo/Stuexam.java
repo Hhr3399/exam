@@ -14,6 +14,6 @@ public class Stuexam {
     private int score;
     private LocalDateTime stime;
     private LocalDateTime ftime;
-    private String student_name;
-    private String course_name;
+    private String studentName;
+    private String courseName;
 }

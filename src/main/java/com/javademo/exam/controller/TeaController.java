@@ -2,10 +2,7 @@ package com.javademo.exam.controller;
 
 
 import com.javademo.exam.Utils.JwtUtils;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Result;
-import com.javademo.exam.pojo.Stuexam;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.*;
 import com.javademo.exam.service.TeaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +20,55 @@ public class TeaController {
     private TeaService teaService;
 
     /**
+     * 查询教师个人信息
+     */
+
+    @GetMapping("/gettea")
+    public Result gettea(HttpServletRequest req) {
+        String token = req.getHeader("token");
+        Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
+
+        Teauser teauser = teaService.gettea(id);
+        return Result.success(teauser);
+    }
+
+    /**
      * 教师编辑个人信息  TODO 感觉token中的id解析不出来
      */
 
     @PutMapping("/tupdate")
     public Result tupdate(@RequestBody Teauser teauser, HttpServletRequest req) {
         String token = req.getHeader("token");
-        teauser.setId((Integer) (JwtUtils.parseJWT(token).get("id")));
+        Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
+        System.out.println(teauser);
+        teauser.setId(id);
+
+
+        Teauser teauser2 = teaService.gettea(id);
+        System.out.println(teauser2);
+
+        if (teauser.getName() == null) {
+            teauser.setName(teauser2.getName());
+        }
+        if (teauser.getGender() == null) {
+            teauser.setGender((Integer) teauser2.getGender());
+        }
+        if (teauser.getPhonenumber() == null) {
+            teauser.setPhonenumber(teauser2.getPhonenumber());
+        }
+        if (teauser.getTid() == null) {
+            teauser.setTid(teauser2.getTid());
+        }
+        if (teauser.getCollegeId() == null) {
+            teauser.setCollegeId((Integer) teauser2.getCollegeId());
+        }
+        if (teauser.getUsername() == null) {
+            teauser.setUsername(teauser2.getUsername());
+        }
+        if (teauser.getPassword() == null) {
+            teauser.setPassword(teauser2.getPassword());
+        }
+        System.out.println(teauser);
         teaService.tupdate(teauser);
         return Result.success();
     }

@@ -1,9 +1,6 @@
 package com.javademo.exam.service;
 
-import com.javademo.exam.pojo.Course;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Test;
+import com.javademo.exam.pojo.*;
 
 import java.util.List;
 
@@ -16,4 +13,12 @@ public interface StuService {
     Question getquestion(Integer questionid);
 
     Stuuser gets(Integer id);
+
+    List<Question> selecttest(String name);
+
+    void insertResult(Stuexam stuexam);
+
+    List<Stuexam> selectStatus(Test t);
+
+    Stuexam selectLatest(Test t);
 }

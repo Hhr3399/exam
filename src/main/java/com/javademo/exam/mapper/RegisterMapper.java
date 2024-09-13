@@ -14,7 +14,7 @@ public interface RegisterMapper {
 
 
     @Insert("insert into student(username,password,student_name,gender,phonenumber,sid,college_id) " +
-            "values (#{username},#{password},#{student_name},#{gender},#{phonenumber},#{sid},#{collegeId})")
+            "values (#{username},#{password},#{studentName},#{gender},#{phonenumber},#{sid},#{collegeId})")
     void add(Stuuser stuuser);
 
 

@@ -2,10 +2,7 @@ package com.javademo.exam.service.impl;
 
 
 import com.javademo.exam.mapper.StuMapper;
-import com.javademo.exam.pojo.Course;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Test;
+import com.javademo.exam.pojo.*;
 import com.javademo.exam.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +34,25 @@ public class StuServiceImpl implements StuService {
     @Override
     public Stuuser gets(Integer id) {
         return stuMapper.gets(id);
+    }
+
+    @Override
+    public List<Question> selecttest(String name) {
+        return stuMapper.selecttest(name);
+    }
+
+    @Override
+    public void insertResult(Stuexam stuexam) {
+        stuMapper.insertResult(stuexam);
+    }
+
+    @Override
+    public List<Stuexam> selectStatus(Test t) {
+        return stuMapper.selectStatus(t);
+    }
+
+    @Override
+    public Stuexam selectLatest(Test t) {
+        return stuMapper.selectLatest(t);
     }
 }

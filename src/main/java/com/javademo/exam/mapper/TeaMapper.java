@@ -24,7 +24,7 @@ public interface TeaMapper {
      *
      * @param question
      */
-    @Insert("insert into question(content,answer,single_score,course_id) values (#{content},#{answer},#{single_score},#{courseId})")
+    @Insert("insert into question(content,answer,single_score,course_id) values (#{content},#{answer},#{singleScore},#{courseId})")
     void add(Question question);
 
 
@@ -33,7 +33,7 @@ public interface TeaMapper {
      *
      * @param question
      */
-    @Update("update question set content = #{content},answer = #{answer} ,single_score=#{single_score},course_id = #{courseId} where id = #{id}")
+    @Update("update question set content = #{content},answer = #{answer} ,single_score=#{singleScore},course_id = #{courseId} where id = #{id}")
     void update(Question question);
 
     /**
@@ -70,4 +70,8 @@ public interface TeaMapper {
     @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime " +
             "from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}")
     List<Stuexam> getsexam(Integer id);
+
+
+    @Select("select * from teacher where id=#{id}")
+    Teauser gettea(Integer id);
 }

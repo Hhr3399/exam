@@ -21,4 +21,6 @@ public interface TeaService {
     void tupdate(Teauser teauser);
 
     List<Stuexam> getsexam(Integer id);
+
+    Teauser gettea(Integer id);
 }
