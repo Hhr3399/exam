@@ -14,4 +14,6 @@ public interface StuService {
     List<Test> getCourse(Stuuser stuuser);
 
     Question getquestion(Integer questionid);
+
+    Stuuser gets(Integer id);
 }

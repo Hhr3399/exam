@@ -59,7 +59,7 @@ public interface TeaMapper {
      * 老师编辑自己信息
      * @param teauser
      */
-    @Update("update teacher set name = #{name},gender = #{gender} ,phonenumber=#{phonenumber},tid=#{tid},college_id=#{collegeId},course_id = #{courseId} where username = #{username}")
+    @Update("update teacher set name = #{name},gender = #{gender} ,phonenumber=#{phonenumber},tid=#{tid},college_id=#{collegeId},course_id = #{courseId} where id = #{id}")
     void tupdate(Teauser teauser);
 
     /**

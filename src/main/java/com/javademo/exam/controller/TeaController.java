@@ -1,6 +1,7 @@
 package com.javademo.exam.controller;
 
 
+import com.javademo.exam.Utils.JwtUtils;
 import com.javademo.exam.pojo.Question;
 import com.javademo.exam.pojo.Result;
 import com.javademo.exam.pojo.Stuexam;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -25,10 +27,10 @@ public class TeaController {
      */
 
     @PutMapping("/tupdate")
-    public Result tupdate(@RequestBody Teauser teauser) {
-
+    public Result tupdate(@RequestBody Teauser teauser, HttpServletRequest req) {
+        String token = req.getHeader("token");
+        teauser.setId((Integer) (JwtUtils.parseJWT(token).get("id")));
         teaService.tupdate(teauser);
-
         return Result.success();
     }
 

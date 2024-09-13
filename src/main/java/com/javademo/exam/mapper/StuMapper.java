@@ -33,4 +33,8 @@ public interface StuMapper {
 
     @Select("select * from question q where id=#{id}")
     Question getquestion(Integer questionid);
+
+
+    @Select("select * from student where id=#{id}")
+    Stuuser gets(Integer id);
 }

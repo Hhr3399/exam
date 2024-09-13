@@ -33,4 +33,9 @@ public class StuServiceImpl implements StuService {
     public Question getquestion(Integer questionid) {
         return stuMapper.getquestion(questionid);
     }
+
+    @Override
+    public Stuuser gets(Integer id) {
+        return stuMapper.gets(id);
+    }
 }

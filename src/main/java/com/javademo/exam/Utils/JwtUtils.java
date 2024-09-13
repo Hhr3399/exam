@@ -5,11 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtils {
 
-    private static String signKey = "itheima6666666666666666666666666666666666666666666666";
+    private static String signKey = "6666666666666666666666666666666666666666666666";
     private static Long expire = 43200000L;
 
     /**
