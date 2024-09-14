@@ -21,6 +21,7 @@ public interface StuMapper {
 
     /**
      * 获取学生课程列表
+     *
      * @param stuuser
      * @return
      */
@@ -52,4 +53,8 @@ public interface StuMapper {
 
     @Select("select e.id,s.student_name,c.course_name,e.score,e.stime,e.ftime from stuexam e,student s,course c WHERE e.s_id = (select s.id from student s where s.student_name=#{studentName}) and e.course_id = (select c.id from course c where c.course_name=#{courseName}) and e.s_id=s.id and e.course_id=c.id and e.id IN (SELECT MAX(e.id) FROM stuexam e GROUP BY e.s_id, e.course_id)")
     Stuexam selectLatest(Test t);
+
+
+    @Select("SELECT c.course_name from student s JOIN student_course sc ON s.id = sc.s_id JOIN course c ON sc.c_id = c.id WHERE s.id = #{id}")
+    List<Course> gerCoursename(Stuuser stuuser);
 }

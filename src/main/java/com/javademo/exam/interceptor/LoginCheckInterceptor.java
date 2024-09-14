@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override //目标资源方法运行前运行, 返回true: 放行, 放回false, 不放行
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
+            return true;
+        }
         //1.获取请求url。
         String url = req.getRequestURL().toString();
         log.info("请求的url: {}",url);
@@ -32,8 +35,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
 
         //3.获取请求头中的令牌（token）。
-        String jwt = req.getHeader("token");
-
+        String token = req.getHeader("Authorization");
+        String jwt=null;
+        if (token != null && token.startsWith("Bearer ")) {
+            jwt = token.substring(7); // 去除"Bearer "前缀
+            // 现在你可以使用jwt变量中的令牌进行后续处理
+        }
         //4.判断令牌是否存在，如果不存在，返回错误结果（未登录）。
         if(!StringUtils.hasLength(jwt)){
             log.info("请求头token为空,返回未登录的信息");

@@ -11,6 +11,7 @@ public class Course {
 
     private Integer id;
     private String name;
+    private String courseName;
     private String status;
     private Integer score;
 }

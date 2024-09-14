@@ -25,23 +25,47 @@ public class StuController {
      */
     @GetMapping("/getstudent")
     public Result gets(HttpServletRequest req) {
-        String token = req.getHeader("token");
+        String jwt = req.getHeader("Authorization");
+        String token=null;
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            token = jwt.substring(7); // 去除"Bearer "前缀
+            // 现在你可以使用jwt变量中的令牌进行后续处理
+        }
         Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
 
         Stuuser stuuser = stuService.gets(id);
         return Result.success(stuuser);
     }
 
+    /**
+     * 获取学生课程
+     * @param stuuser
+     * @return
+     */
+
+    @PostMapping("/getcoursename")
+    public  Result getcoursename(@RequestBody Stuuser stuuser){
+
+        System.out.println(stuuser);
+
+        List<Test> tests = stuService.getCourse(stuuser);
+        List<Course> courses= stuService.getCoursename(stuuser);
+
+        return  Result.success(courses);
+    }
 
     /**
-     * TODO  感觉token中的id解析不出来
-     *
      * @param stuuser
      * @return
      */
     @PutMapping("/supdate")
     public Result update(@RequestBody Stuuser stuuser, HttpServletRequest req) {
-        String token = req.getHeader("token");
+        String jwt = req.getHeader("Authorization");
+        String token=null;
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            token = jwt.substring(7); // 去除"Bearer "前缀
+            // 现在你可以使用jwt变量中的令牌进行后续处理
+        }
         Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
         System.out.println(stuuser);
         stuuser.setId(id);

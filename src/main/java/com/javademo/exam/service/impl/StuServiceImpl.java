@@ -55,4 +55,9 @@ public class StuServiceImpl implements StuService {
     public Stuexam selectLatest(Test t) {
         return stuMapper.selectLatest(t);
     }
+
+    @Override
+    public List<Course> getCoursename(Stuuser stuuser) {
+        return stuMapper.gerCoursename(stuuser);
+    }
 }

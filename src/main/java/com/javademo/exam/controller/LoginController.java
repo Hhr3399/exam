@@ -22,6 +22,8 @@ public class LoginController {
 
     @PostMapping("/slogin")
     public Result login(@RequestBody Stuuser stuuser) {
+        System.out.println(stuuser);
+
         Stuuser stuuser1=loginService.login(stuuser);
 
         /**

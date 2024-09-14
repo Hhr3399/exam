@@ -21,4 +21,6 @@ public interface StuService {
     List<Stuexam> selectStatus(Test t);
 
     Stuexam selectLatest(Test t);
+
+     List<Course> getCoursename(Stuuser stuuser);
 }

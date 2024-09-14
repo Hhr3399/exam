@@ -25,7 +25,12 @@ public class TeaController {
 
     @GetMapping("/gettea")
     public Result gettea(HttpServletRequest req) {
-        String token = req.getHeader("token");
+        String jwt = req.getHeader("Authorization");
+        String token=null;
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            token = jwt.substring(7); // 去除"Bearer "前缀
+            // 现在你可以使用jwt变量中的令牌进行后续处理
+        }
         Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
 
         Teauser teauser = teaService.gettea(id);
@@ -38,7 +43,12 @@ public class TeaController {
 
     @PutMapping("/tupdate")
     public Result tupdate(@RequestBody Teauser teauser, HttpServletRequest req) {
-        String token = req.getHeader("token");
+        String jwt = req.getHeader("Authorization");
+        String token=null;
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            token = jwt.substring(7); // 去除"Bearer "前缀
+            // 现在你可以使用jwt变量中的令牌进行后续处理
+        }
         Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
         System.out.println(teauser);
         teauser.setId(id);
@@ -135,14 +145,16 @@ public class TeaController {
         return Result.success(stuexams);
     }
 
+
+
     /**
      * 展示某考生具体的考试情况
      */
-
     @GetMapping("/studentid/{studentid}")
     public Result getsexam(@PathVariable Integer studentid) {
 
         List<Stuexam> stuexams = teaService.getsexam(studentid);
+
         return Result.success(stuexams);
     }
 
