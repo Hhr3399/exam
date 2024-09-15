@@ -150,10 +150,10 @@ public class TeaController {
     /**
      * 展示某考生具体的考试情况
      */
-    @GetMapping("/studentid/{studentid}")
-    public Result getsexam(@PathVariable Integer studentid) {
+    @GetMapping("/studentid/{id}")
+    public Result getsexam(@PathVariable Integer id) {
 
-        List<Stuexam> stuexams = teaService.getsexam(studentid);
+        List<Stuexam> stuexams = teaService.getsexam(id);
 
         return Result.success(stuexams);
     }

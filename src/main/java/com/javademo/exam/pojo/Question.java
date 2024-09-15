@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Question {
     private Integer id;
     private String content;
-    private String answer;
+    private boolean answer;
     private Integer singleScore;
     private Integer courseId;
     private String courseName;

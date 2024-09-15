@@ -17,4 +17,5 @@ public class Stuuser {
     private String sid;
     private Integer collegeId;
     private String collegeName;
+
 }

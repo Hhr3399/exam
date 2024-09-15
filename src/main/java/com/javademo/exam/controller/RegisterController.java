@@ -32,6 +32,7 @@ public class RegisterController {
     }
     @PostMapping("/tregister")
     public Result register(@RequestBody Teauser teauser){
+
         Teauser teauser1 = registerService.tget(teauser);
 
         if (teauser1 != null) {

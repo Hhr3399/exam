@@ -38,7 +38,7 @@ public class StuController {
     }
 
     /**
-     * 获取学生课程
+     * 获取学生课程名字
      * @param stuuser
      * @return
      */
@@ -64,14 +64,13 @@ public class StuController {
         String token=null;
         if (jwt != null && jwt.startsWith("Bearer ")) {
             token = jwt.substring(7); // 去除"Bearer "前缀
-            // 现在你可以使用jwt变量中的令牌进行后续处理
+            // 现在可以使用jwt变量中的令牌进行后续处理
         }
         Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
         System.out.println(stuuser);
         stuuser.setId(id);
         Stuuser stuuser2 = stuService.gets(id);
 
-        System.out.println(stuuser2);
         if (stuuser.getStudentName() == null) {
             stuuser.setStudentName(stuuser2.getStudentName());
         }
@@ -97,8 +96,6 @@ public class StuController {
 
         stuService.update(stuuser);
 
-        System.out.println(stuuser);
-
         return Result.success();
 
     }
@@ -111,6 +108,8 @@ public class StuController {
      */
     @PostMapping("/getcourse")
     public Result getcourse(@RequestBody Stuuser stuuser) {
+        System.out.println(stuuser);
+        //获得所选课程列表
         List<Test> tests = stuService.getCourse(stuuser);
         System.out.println(tests);
         for(Test t:tests){
@@ -128,17 +127,25 @@ public class StuController {
         return Result.success(tests);
     }
 
+    /**
+     * 进入考试，获取到所有题目
+     */
 
+    @PostMapping("/exam")
+    public Result examing(@RequestBody Course course) {
+        List<Question> questions=stuService.selecttest(course.getName());
+        return Result.success(questions);
+    }
     /**
      * 根据题目id获得题目
      */
     @GetMapping("/{questionid}/{answername}")
-    public Result getquestion(@PathVariable Integer questionid, @PathVariable String answername) {
+    public Result getquestion(@PathVariable Integer questionid, @PathVariable Boolean answername) {//@PathVariable String answername
         Stuexam stuexam = new Stuexam();
         Question question = stuService.getquestion(questionid);
 
         int totalscore = 0;
-        if (question.getAnswer().equals(answername)) {
+        if (question.isAnswer()==answername) {//question.isAnswer()==(answername)
             totalscore += question.getSingleScore();
         }
         stuexam.setScore(totalscore);
@@ -147,15 +154,10 @@ public class StuController {
     }
 
     /**
-     * 进入考试，开始答题
+     * 储存考试结果
+     * @param stuexam
+     * @return
      */
-
-    @PostMapping("/exam")
-    public Result examing(@RequestBody Course course) {
-        List<Question> questions=stuService.selecttest(course.getName());
-        return Result.success(questions);
-    }
-
     @PostMapping("/saveResult")
     public Result examresult(@RequestBody Stuexam stuexam){
         stuService.insertResult(stuexam);

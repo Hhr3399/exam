@@ -48,7 +48,7 @@ public interface TeaMapper {
      * 查询最近一次的考试相关信息
      * @return
      */
-    @Select("select e.id,s.student_name,c.course_name,e.score,e.stime,e.ftime from stuexam e,student s,course c\n" +
+    @Select("select s.id,s.student_name,c.course_name,e.score,e.stime,e.ftime,e.id from stuexam e,student s,course c\n" +
             "WHERE e.s_id=s.id and e.course_id=c.id and e.id IN (SELECT MAX(e.id)\n" +
             "             FROM stuexam e\n" +
             "             GROUP BY e.s_id, e.course_id)")
@@ -64,11 +64,10 @@ public interface TeaMapper {
 
     /**
      * 某考生的课程考试情况
-     * @param id
+     * @param
      * @return
      */
-    @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime " +
-            "from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}")
+    @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime,s.id from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}\n")
     List<Stuexam> getsexam(Integer id);
 
     /**
