@@ -5,6 +5,7 @@ import com.javademo.exam.mapper.TeaMapper;
 import com.javademo.exam.pojo.Question;
 import com.javademo.exam.pojo.Stuexam;
 import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.vo.MyStudentResultVo;
 import com.javademo.exam.service.TeaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,13 @@ public class TeaServiceImpl implements TeaService {
     private TeaMapper teaMapper;
 
     @Override
-    public List<Question> list(Integer courseId) {
-        return teaMapper.list(courseId);
+    public Teauser gettea(Integer id) {
+        return teaMapper.gettea(id);
+    }
+
+    @Override
+    public List<Question> list(String courseName) {
+        return teaMapper.list(courseName);
     }
 
     @Override
@@ -38,22 +44,19 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
-    public List<Stuexam> stuscore() {
-        return teaMapper.listscore();
-    }
-
-    @Override
     public void tupdate(Teauser teauser) {
         teaMapper.tupdate(teauser);
     }
 
     @Override
-    public List<Stuexam> getsexam(Integer id) {
-        return teaMapper.getsexam(id);
+    public List<MyStudentResultVo> getStuResult(Integer courseid) {
+        return teaMapper.getStuResult(courseid);
     }
 
     @Override
-    public Teauser gettea(Integer id) {
-        return teaMapper.gettea(id);
+    public List<MyStudentResultVo> getStuMaxResult(Integer courseid) {
+        return teaMapper.getStuMaxResult(courseid);
     }
+
+
 }

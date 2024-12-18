@@ -3,24 +3,26 @@ package com.javademo.exam.service;
 import com.javademo.exam.pojo.Question;
 import com.javademo.exam.pojo.Stuexam;
 import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.vo.MyStudentResultVo;
 
 import java.util.List;
 
 public interface TeaService {
 
-    List<Question> list(Integer courseId);
+    Teauser gettea(Integer id);
 
-    void add(  Question question);
+    List<Question> list(String courseName);
 
-    void update(Question question);
+    void add( Question question);
 
     void delete(Integer id);
 
-    List<Stuexam> stuscore();
+    void update(Question question);
 
     void tupdate(Teauser teauser);
 
-    List<Stuexam> getsexam(Integer id);
 
-    Teauser gettea(Integer id);
+    List<MyStudentResultVo> getStuResult(Integer courseid);
+
+    List<MyStudentResultVo> getStuMaxResult(Integer courseid);
 }

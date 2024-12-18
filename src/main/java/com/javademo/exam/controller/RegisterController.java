@@ -17,8 +17,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
-
-    @PostMapping("/sregister")
+    @PostMapping("/register")
     public Result register(@RequestBody Stuuser stuuser) {
 
         Stuuser stuuser1 = registerService.get(stuuser);

@@ -5,6 +5,6 @@ import com.javademo.exam.pojo.Stuuser;
 import com.javademo.exam.pojo.Teauser;
 
 public interface LoginService  {
-    Stuuser login(Stuuser stuuser);
+    Stuuser slogin(Stuuser stuuser);
     Teauser tlogin(Teauser teauser);
 }

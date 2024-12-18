@@ -2,8 +2,12 @@ package com.javademo.exam.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.javademo.exam.Utils.JwtUtils;
+import com.javademo.exam.common.JwtClaimsConstant;
 import com.javademo.exam.pojo.Result;
+import com.javademo.exam.properties.JwtProperties;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
+    @Autowired
+    private JwtProperties jwtProperties;
     @Override //目标资源方法运行前运行, 返回true: 放行, 放回false, 不放行
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
         if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
@@ -24,7 +30,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         String url = req.getRequestURL().toString();
         log.info("请求的url: {}",url);
 
-        //2.判断请求url中是否包含login，如果包含，说明是登录操作，放行。
+        //2.判断请求url中是否包含login和register，如果包含，说明是登录操作，放行。
         if(url.contains("login")){
             log.info("登录操作, 放行...");
             return true;
@@ -34,37 +40,24 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             
         }
 
-        //3.获取请求头中的令牌（token）。
-        String token = req.getHeader("Authorization");
-        String jwt=null;
-        if (token != null && token.startsWith("Bearer ")) {
-            jwt = token.substring(7); // 去除"Bearer "前缀
-            // 现在你可以使用jwt变量中的令牌进行后续处理
-        }
-        //4.判断令牌是否存在，如果不存在，返回错误结果（未登录）。
-        if(!StringUtils.hasLength(jwt)){
-            log.info("请求头token为空,返回未登录的信息");
-            Result error = Result.error("NOT_LOGIN");
-            //手动转换 对象--json --------> 阿里巴巴fastJSON
-            String notLogin = JSONObject.toJSONString(error);
-            resp.getWriter().write(notLogin);
+        //获取token
+        String token = req.getHeader("token");
+
+        if (!StringUtils.hasText(token)) {
             return false;
         }
 
-        //5.解析token，如果解析失败，返回错误结果（未登录）。
+        //解析token
+        String userid;
         try {
-            JwtUtils.parseJWT(jwt);
-        } catch (Exception e) {//jwt解析失败
+            Claims claims = JwtUtils.parseJWT(jwtProperties.getSecretKey(), token);
+            userid = (String) claims.get(JwtClaimsConstant.USER_ID);
+        } catch (Exception e) {
             e.printStackTrace();
-            log.info("解析令牌失败, 返回未登录错误信息");
-            Result error = Result.error("NOT_LOGIN");
-            //手动转换 对象--json --------> 阿里巴巴fastJSON
-            String notLogin = JSONObject.toJSONString(error);
-            resp.getWriter().write(notLogin);
-            return false;
+            throw new Exception("token非法");
         }
 
-        //6.放行。
+        //放行
         log.info("令牌合法, 放行");
         return true;
     }

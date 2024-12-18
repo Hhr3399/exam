@@ -13,7 +13,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginMapper loginMapper;
 
     @Override
-    public Stuuser login(Stuuser stuuser) {
+    public Stuuser slogin(Stuuser stuuser) {
 
         return loginMapper.getBynp(stuuser);
     }

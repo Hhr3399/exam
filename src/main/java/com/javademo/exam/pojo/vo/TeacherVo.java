@@ -1,18 +1,15 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question {
+@Data
+public class TeacherVo {
     private Integer id;
-    private String content;
-    private String answer;
-    private Integer singleScore;
-    private Integer courseId;
+    private String name;
+    private String collegeName;
     private String courseName;
-
 }

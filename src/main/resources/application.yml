@@ -7,3 +7,15 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+javademo:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    secret-key: hrhrhr
+    # 设置jwt过期时间
+    ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    token-name: token
+
+
+
