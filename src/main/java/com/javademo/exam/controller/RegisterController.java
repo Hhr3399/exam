@@ -1,9 +1,9 @@
 package com.javademo.exam.controller;
 
 
-import com.javademo.exam.pojo.Result;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Result;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.service.RegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

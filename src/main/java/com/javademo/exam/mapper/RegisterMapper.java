@@ -1,7 +1,7 @@
 package com.javademo.exam.mapper;
 
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

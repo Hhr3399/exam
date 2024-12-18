@@ -1,4 +1,4 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class StudentCourse {
-    private Integer id;
-    private Integer sId;
-    private Integer cId;
-    private Integer score;
+    private int id;
+    private int sId;
+    private int cId;
+    private int score;
     private LocalDateTime stime;
     private LocalDateTime etime;
 }

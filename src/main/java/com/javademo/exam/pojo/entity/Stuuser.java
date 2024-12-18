@@ -1,4 +1,4 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stuuser {
-    private Integer id;
+    private int id;
     private String username;
     private String password;
     private String studentName;
-    private Integer gender;
+    private String gender;
     private String phonenumber;
     private String sid;
-    private Integer collegeId;
+    private int collegeId;
     private String collegeName;
 
 }

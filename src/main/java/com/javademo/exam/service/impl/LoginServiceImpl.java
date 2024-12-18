@@ -1,8 +1,8 @@
 package com.javademo.exam.service.impl;
 
 import com.javademo.exam.mapper.LoginMapper;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

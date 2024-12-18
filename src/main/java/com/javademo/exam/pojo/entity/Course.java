@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Course {
 
-    private Integer id;
+    private int id;
 
     private String courseName;
 }

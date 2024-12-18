@@ -2,9 +2,8 @@ package com.javademo.exam.service.impl;
 
 
 import com.javademo.exam.mapper.TeaMapper;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuexam;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.pojo.vo.MyStudentResultVo;
 import com.javademo.exam.service.TeaService;
 import org.springframework.beans.factory.annotation.Autowired;

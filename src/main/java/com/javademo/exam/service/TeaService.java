@@ -1,8 +1,7 @@
 package com.javademo.exam.service;
 
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuexam;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.pojo.vo.MyStudentResultVo;
 
 import java.util.List;

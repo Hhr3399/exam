@@ -15,7 +15,7 @@ public class MyStudentResultVo {
     private String phonenumber;
     private String collegeName;
     private String courseName;
-    private Integer score;
+    private int score;
     private LocalDateTime stime;
     private LocalDateTime etime;
 }

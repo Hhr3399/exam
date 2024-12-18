@@ -1,7 +1,8 @@
 package com.javademo.exam;
 
 import com.javademo.exam.Utils.BeanUtil;
-import com.javademo.exam.pojo.Stuuser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.properties.JwtProperties;
 import com.javademo.exam.service.StuService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ExamApplicationTests {
-@Autowired
-   private StuService stuService;
+    @Autowired
+    private StuService stuService;
+    @Autowired
+    JwtProperties jwtProperties;
+
     @Test
     void contextLoads() {
     }
 
     @Test
-    void test(){
+    void test() {
         Stuuser source = new Stuuser();
         source.setStudentName("张三");
         source.setPhonenumber("123456789");

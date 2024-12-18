@@ -2,8 +2,10 @@ package com.javademo.exam.service.impl;
 
 
 import com.javademo.exam.mapper.StuMapper;
-import com.javademo.exam.pojo.*;
 import com.javademo.exam.pojo.entity.Course;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.StudentCourse;
+import com.javademo.exam.pojo.entity.Stuuser;
 import com.javademo.exam.pojo.vo.ExamResultVo;
 import com.javademo.exam.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public Stuuser gets(Integer id) {
+    public Stuuser gets(int id) {
         return stuMapper.gets(id);
     }
 
@@ -38,13 +40,13 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public List<ExamResultVo> getexamResults(Integer id) {
-       return stuMapper.getexamResults(id);
+    public List<ExamResultVo> getexamResults(int id) {
+        return stuMapper.getexamResults(id);
     }
 
     @Override
-    public ExamResultVo getsigleResult(String courseName, Integer id) {
-        return stuMapper.getsigleResult(courseName,id);
+    public ExamResultVo getsigleResult(String courseName, int id) {
+        return stuMapper.getsigleResult(courseName, id);
     }
 
     @Override

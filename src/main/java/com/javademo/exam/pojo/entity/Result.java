@@ -1,4 +1,4 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.javademo.exam.service;
 
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 
 public interface RegisterService {
     Stuuser get(Stuuser stuuser);

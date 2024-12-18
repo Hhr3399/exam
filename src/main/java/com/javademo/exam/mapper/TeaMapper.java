@@ -1,9 +1,8 @@
 package com.javademo.exam.mapper;
 
 
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuexam;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.pojo.vo.MyStudentResultVo;
 import org.apache.ibatis.annotations.*;
 

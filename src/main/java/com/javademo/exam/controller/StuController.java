@@ -2,14 +2,14 @@ package com.javademo.exam.controller;
 
 
 import com.javademo.exam.Utils.BeanUtil;
-import com.javademo.exam.Utils.GetIdUtil;
 import com.javademo.exam.Utils.JwtUtils;
-import com.javademo.exam.pojo.*;
-import com.javademo.exam.pojo.entity.Course;
+import com.javademo.exam.pojo.entity.*;
 import com.javademo.exam.pojo.vo.ExamResultVo;
 import com.javademo.exam.pojo.vo.StudentVo;
 import com.javademo.exam.properties.JwtProperties;
+import com.javademo.exam.service.RegisterService;
 import com.javademo.exam.service.StuService;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +30,20 @@ public class StuController {
     private StuService stuService;
 
     @Autowired
-    private JwtProperties jwtProperties;
+    private RegisterService registerService;
 
     /**
      * 查找学生个人信息
+     *
+     * @param stuuser
+     * @return
      */
     @GetMapping("/getstudent")
-    public Result gets(HttpServletRequest req) {
-        String token = req.getHeader("token");
-        Integer id = (Integer) JwtUtils.parseJWT(jwtProperties.getSecretKey(), token).get("id");
-        Stuuser stuuser = stuService.gets(id);
+    public Result gets(@RequestBody Stuuser stuuser) {
+
+        Stuuser stuuser1 = registerService.get(stuuser);
         StudentVo studentVo = new StudentVo();
-        BeanUtils.copyProperties(stuuser, studentVo);
+        BeanUtils.copyProperties(stuuser1, studentVo);
         return Result.success(studentVo);
     }
 
@@ -53,38 +55,13 @@ public class StuController {
      * @return
      */
     @PutMapping("/supdate")
-    public Result update(@RequestBody Stuuser stuuser, HttpServletRequest req) {
+    public Result update(@RequestBody Stuuser stuuser) {
 
-        String token = req.getHeader("token");
-        Integer id = (Integer) JwtUtils.parseJWT(jwtProperties.getSecretKey(), token).get("id");
-        stuuser.setId(id);
-        Stuuser stuuser1 = stuService.gets(id);
+        Stuuser stuuser1 = stuService.gets(stuuser.getId());
         BeanUtil.copyNonNullProperties(stuuser, stuuser1);  //把stuuser的值赋值给stuuser2
-        /*
-            if (stuuser.getStudentName() == null) {
-                stuuser.setStudentName(stuuser2.getStudentName());
-            }
-            if (stuuser.getGender() == null) {
-                stuuser.setGender((Integer) stuuser2.getGender());
-            }
-            if (stuuser.getPhonenumber() == null) {
-                stuuser.setPhonenumber(stuuser2.getPhonenumber());
-            }
-            if (stuuser.getSid() == null) {
-                stuuser.setSid(stuuser2.getSid());
-            }
-            if (stuuser.getCollegeId() == null) {
-                stuuser.setCollegeId((Integer) stuuser2.getCollegeId());
-            }
-            if (stuuser.getUsername() == null) {
-                stuuser.setUsername(stuuser2.getUsername());
-            }
-            if (stuuser.getPassword() == null) {
-                stuuser.setPassword(stuuser2.getPassword());
-            }
-        }*/
         stuService.update(stuuser1);
         return Result.success("修改学生个人信息成功");
+
     }
 
     /**
@@ -101,49 +78,44 @@ public class StuController {
 
     /**
      * 显示学生所有课程的考试结果
-     *
-     * @param req
+     * @param id
      * @return
      */
-    @PostMapping("/getexamResult")
-    public Result getexamResults(HttpServletRequest req) {
-        String token = req.getHeader("token");
-        Integer id = (Integer) JwtUtils.parseJWT(jwtProperties.getSecretKey(), token).get("id");
+    @PostMapping("/getexamResult/{id}")
+    public Result getexamResults(@PathVariable int id) {
         List<ExamResultVo> examResultVo = stuService.getexamResults(id);
         return Result.success(examResultVo);
     }
 
     /**
      * 显示学生单个课程的考试结果
-     *
      * @param courseName
-     * @param req
+     * @param id
      * @return
      */
-    @PostMapping("/getsingleResult")
-    public Result getsingleResult(@RequestParam String courseName, HttpServletRequest req) {
-        Integer id = GetIdUtil.getId(req);
+    @PostMapping("/getsingleResult/{courseName}/{id}")
+    public Result getsingleResult(@PathVariable String courseName, @PathVariable int id) {
+
         ExamResultVo examResultVo = stuService.getsigleResult(courseName, id);
         return Result.success(examResultVo);
+
     }
 
     /**
      * 根据课程名字获取对应的考试题目并且开始考试
-     *
      * @param courseName
-     * @param req
+     * @param id
      * @return
      */
-    @PostMapping("/getQuestions")
-    public Result getQuestions(@RequestParam String courseName, HttpServletRequest req) {
+    @PostMapping("/getQuestions/{courseName}/{id}")
+    public Result getQuestions(@PathVariable String courseName, @PathVariable int id) {
 
         List<Question> questions = stuService.getQuestions(courseName);
 
-        Integer sid = GetIdUtil.getId(req);
-        Integer courseId = questions.get(0).getCourseId();
+        int courseId = questions.get(0).getCourseId();
         StudentCourse studentCourse = new StudentCourse();
         studentCourse.setCId(courseId);
-        studentCourse.setSId(sid);
+        studentCourse.setSId(id);
         studentCourse.setStime(LocalDateTime.now());
         Map<String, Object> claims = new HashMap<>();
         claims.put("questions", questions);
@@ -153,14 +125,13 @@ public class StuController {
 
     /**
      * 提交答案并校验，上传考试结果
-     *
      * @param claims
      * @param answers
-     * @param req
+     * @param id
      * @return
      */
-    @RequestMapping("/submit")
-    public Result submitAnswers(@RequestBody Map claims, @RequestBody List<String> answers, HttpServletRequest req) {
+    @RequestMapping("/submit/{id}")
+    public Result submitAnswers(@RequestBody Map<String, Object> claims, @RequestBody List<String> answers,@PathVariable int id ) {
 
         List<Question> questions = (List<Question>) claims.get("questions");
         StudentCourse studentCourse = (StudentCourse) claims.get("studentCourse");

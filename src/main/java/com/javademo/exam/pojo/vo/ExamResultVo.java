@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExamResultVo {
 
-    private Integer id;
+    private int id;
 
     private String studentName;
 
     private String courseName;
 
-    private Integer score;
+    private int score;
 
     private LocalDateTime stime;
 

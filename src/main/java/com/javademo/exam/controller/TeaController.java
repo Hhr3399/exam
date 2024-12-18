@@ -2,13 +2,17 @@ package com.javademo.exam.controller;
 
 
 import com.javademo.exam.Utils.BeanUtil;
-import com.javademo.exam.Utils.JwtUtils;
 import com.javademo.exam.Utils.GetIdUtil;
-import com.javademo.exam.pojo.*;
+import com.javademo.exam.Utils.JwtUtils;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.Result;
+import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.pojo.vo.MyStudentResultVo;
 import com.javademo.exam.pojo.vo.TeacherVo;
 import com.javademo.exam.properties.JwtProperties;
+import com.javademo.exam.service.RegisterService;
 import com.javademo.exam.service.TeaService;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +26,24 @@ import java.util.List;
 @RequestMapping("/tea")
 public class TeaController {
 
+
     @Autowired
-    private JwtProperties jwtProperties;
+    private RegisterService registerService;
 
     @Autowired
     private TeaService teaService;
 
     /**
      * 教师查询个人信息
-     * @param req
+     * @param teauser
      * @return
      */
     @GetMapping("/gettea")
-    public Result gettea(HttpServletRequest req) {
+    public Result gettea(@RequestBody Teauser teauser) {
 
-        Integer id=GetIdUtil.getId(req);
-        Teauser teauser = teaService.gettea(id);
+        Teauser teauser1 = registerService.tget(teauser);
         TeacherVo teacherVo=new TeacherVo();
-        BeanUtils.copyProperties(teauser, teacherVo);
+        BeanUtils.copyProperties(teauser1, teacherVo);
         return Result.success(teacherVo);
 
     }
@@ -51,36 +55,12 @@ public class TeaController {
      * @return
      */
     @PutMapping("/tupdate")
-    public Result tupdate(@RequestBody Teauser teauser, HttpServletRequest req) {
+    public Result tupdate(@RequestBody Teauser teauser) {
 
-        Integer id=GetIdUtil.getId(req);
-        teauser.setId(id);
+        int id=teauser.getId();
         Teauser teauser1 = teaService.gettea(id);
         BeanUtil.copyNonNullProperties(teauser, teauser1);  //把tuser的值赋值给teauser1
-       /* if (teauser.getName() == null) {
-            teauser.setName(teauser2.getName());
-        }
-        if (teauser.getGender() == null) {
-            teauser.setGender((Integer) teauser2.getGender());
-        }
-        if (teauser.getPhonenumber() == null) {
-            teauser.setPhonenumber(teauser2.getPhonenumber());
-        }
-        if (teauser.getTid() == null) {
-            teauser.setTid(teauser2.getTid());
-        }
-        if (teauser.getCollegeId() == null) {
-            teauser.setCollegeId((Integer) teauser2.getCollegeId());
-        }
-        if (teauser.getUsername() == null) {
-            teauser.setUsername(teauser2.getUsername());
-        }
-        if (teauser.getPassword() == null) {
-            teauser.setPassword(teauser2.getPassword());
-        }
-        if (teauser.getCourseId()==null){
-            teauser.setCourseId(teauser2.getCourseId());
-        }*/
+
         teaService.tupdate(teauser1);
         return Result.success("修改教师信息成功");
     }
@@ -148,7 +128,7 @@ public class TeaController {
      * @param courseid
      * @return
      */
-    @GetMapping("/getStuResult/{courseid}")
+    @GetMapping("/getStuMaxResult/{courseid}")
     public Result getStuMaxResult(@PathVariable Integer courseid) {
         List<MyStudentResultVo> myStudentResults = teaService.getStuMaxResult(courseid);
         return Result.success("ok");
