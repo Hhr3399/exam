@@ -1,4 +1,4 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Test {
-    private  String student_name;
-    private  String course_name;
+public class Course {
 
+    private int id;
+
+    private String courseName;
 }

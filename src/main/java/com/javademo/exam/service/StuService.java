@@ -1,9 +1,10 @@
 package com.javademo.exam.service;
 
-import com.javademo.exam.pojo.Course;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Test;
+import com.javademo.exam.pojo.entity.Course;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.StudentCourse;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.vo.ExamResultVo;
 
 import java.util.List;
 
@@ -11,9 +12,15 @@ public interface StuService {
 
     void update(Stuuser stuuser);
 
-    List<Test> getCourse(Stuuser stuuser);
+    Stuuser gets(int id);
 
-    Question getquestion(Integer questionid);
+    List<Question> getQuestions(String courseName);
 
-    Stuuser gets(Integer id);
+    List<Course> getCoursename(Stuuser stuuser);
+
+    List<ExamResultVo> getexamResults(int id);
+
+    ExamResultVo getsigleResult(String courseName, int id);
+
+    void saveResult(StudentCourse studentCourse);
 }

@@ -1,7 +1,7 @@
 package com.javademo.exam.mapper;
 
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 public interface LoginMapper {
 
 
-    @Select("select * from student where username=#{username} and password=#{password}")
+    @Select("select * from student where username=#{username}")
     Stuuser getBynp(Stuuser stuuser);
 
     @Select("select * from teacher where username=#{username} and password=#{password}")

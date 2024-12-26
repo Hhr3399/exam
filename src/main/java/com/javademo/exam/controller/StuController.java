@@ -1,122 +1,158 @@
 package com.javademo.exam.controller;
 
 
+import com.javademo.exam.Utils.BeanUtil;
 import com.javademo.exam.Utils.JwtUtils;
-import com.javademo.exam.pojo.*;
+import com.javademo.exam.pojo.entity.*;
+import com.javademo.exam.pojo.vo.ExamResultVo;
+import com.javademo.exam.pojo.vo.StudentVo;
+import com.javademo.exam.properties.JwtProperties;
+import com.javademo.exam.service.RegisterService;
 import com.javademo.exam.service.StuService;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/stu")
 public class StuController {
+
     @Autowired
     private StuService stuService;
 
+    @Autowired
+    private RegisterService registerService;
 
     /**
-     * 查找个人信息
+     * 查找学生个人信息
+     *
+     * @param stuuser
+     * @return
      */
     @GetMapping("/getstudent")
-    public Result gets(HttpServletRequest req) {
-        String token = req.getHeader("token");
-        Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
+    public Result gets(@RequestBody Stuuser stuuser) {
 
-        Stuuser stuuser = stuService.gets(id);
-        return Result.success(stuuser);
+        Stuuser stuuser1 = registerService.get(stuuser);
+        StudentVo studentVo = new StudentVo();
+        BeanUtils.copyProperties(stuuser1, studentVo);
+        return Result.success(studentVo);
     }
 
-
     /**
-     * TODO  感觉token中的id解析不出来
-     *
+     * 学生编辑个人信息
      * @param stuuser
      * @return
      */
     @PutMapping("/supdate")
-    public Result update(@RequestBody Stuuser stuuser, HttpServletRequest req) {
-        String token = req.getHeader("token");
-        Integer id = (Integer) JwtUtils.parseJWT(token).get("id");
-        System.out.println(stuuser);
-        stuuser.setId(id);
-        Stuuser stuuser2 = stuService.gets(id);
+    public Result update(@RequestBody Stuuser stuuser) {
 
-        System.out.println(stuuser2);
-        if (stuuser.getStudent_name() == null) {
-            stuuser.setStudent_name(stuuser2.getStudent_name());
-        }
-        if (stuuser.getGender() == 0) {
-            stuuser.setGender(stuuser2.getGender());
-        }
-        if (stuuser.getPhonenumber() == null) {
-            stuuser.setPhonenumber(stuuser2.getPhonenumber());
-        }
-        if (stuuser.getSid() == null) {
-            stuuser.setSid(stuuser2.getSid());
-        }
-        if (stuuser.getCollegeId() == 0) {
-            stuuser.setCollegeId(stuuser2.getCollegeId());
-        }
-        if (stuuser.getUsername() == null) {
-            stuuser.setUsername(stuuser2.getUsername());
-        }
-        if (stuuser.getPassword() == null) {
-            stuuser.setPassword(stuuser2.getPassword());
-        }
-        System.out.println(stuuser);
-
-        stuService.update(stuuser);
-
-        System.out.println(stuuser);
-
-        return Result.success();
+        Stuuser stuuser1 = stuService.gets(stuuser.getId());
+        BeanUtil.copyNonNullProperties(stuuser, stuuser1);  //把stuuser的值赋值给stuuser2
+        stuService.update(stuuser1);
+        return Result.success("修改学生个人信息成功");
 
     }
 
     /**
-     * 显示学生所选课程
+     * 获取学生所选课程名字与id
      *
      * @param stuuser
      * @return
      */
-    @GetMapping("/getcourse")
-    public Result getcourse(@RequestBody Stuuser stuuser) {
-
-        List<Test> tests = stuService.getCourse(stuuser);
-        return Result.success(tests);
+    @PostMapping("/getcoursename")
+    public Result getcoursename(@RequestBody Stuuser stuuser) {
+        List<Course> courses = stuService.getCoursename(stuuser);
+        return Result.success(courses);
     }
 
+    /**
+     * 显示学生所有课程的考试结果
+     * @param id
+     * @return
+     */
+    @PostMapping("/getexamResult/{id}")
+    public Result getexamResults(@PathVariable int id) {
+        List<ExamResultVo> examResultVo = stuService.getexamResults(id);
+        return Result.success(examResultVo);
+    }
 
     /**
-     * 根据题目id获得题目
+     * 显示学生单个课程的考试结果
+     * @param courseName
+     * @param id
+     * @return
      */
-    @GetMapping("/{questionid}/{answername}")
-    public Result getquestion(@PathVariable Integer questionid, @PathVariable String answername) {
-        Stuexam stuexam = new Stuexam();
-        Question question = stuService.getquestion(questionid);
+    @PostMapping("/getsingleResult/{courseName}/{id}")
+    public Result getsingleResult(@PathVariable String courseName, @PathVariable int id) {
+
+        ExamResultVo examResultVo = stuService.getsigleResult(courseName, id);
+        if (examResultVo==null){
+            return Result.error("该课程还未考试");
+        }
+        return Result.success(examResultVo);
+
+    }
+
+    /**
+     * 根据课程名字获取对应的考试题目并且开始考试
+     * @param courseName
+     * @param id
+     * @return
+     */
+    @PostMapping("/getQuestions/{courseName}/{id}")
+    public Result getQuestions(@PathVariable String courseName, @PathVariable int id) {
+
+        List<Question> questions = stuService.getQuestions(courseName);
+
+        int courseId = questions.get(0).getCourseId();
+        StudentCourse studentCourse = new StudentCourse();
+        studentCourse.setCId(courseId);
+        studentCourse.setSId(id);
+        studentCourse.setStime(LocalDateTime.now());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("questions", questions);
+        claims.put("studentCourse", studentCourse);
+        return Result.success(claims);
+    }
+
+    /**
+     * 提交答案并校验，上传考试结果
+     * @param claims
+     * @param answers
+     * @param id
+     * @return
+     */
+    @RequestMapping("/submit/{id}")
+    public Result submitAnswers(@RequestBody Map<String, Object> claims, @RequestBody List<String> answers,@PathVariable int id ) {
+
+        List<Question> questions = (List<Question>) claims.get("questions");
+        StudentCourse studentCourse = (StudentCourse) claims.get("studentCourse");
 
         int totalscore = 0;
-        if (question.getAnswer().equals(answername)) {
-            totalscore += question.getSingle_score();
+        for (Question question : questions) {
+            String correctanswer = question.getAnswer();
+            for (String youranswer : answers) {
+                if (youranswer.equals(correctanswer)) {
+                    totalscore += question.getSingleScore();
+                }
+            }
         }
-        stuexam.setScore(totalscore);
-        stuexam.setStime(LocalDateTime.now());
-        return Result.success(stuexam);
+        studentCourse.setScore(totalscore);
+        studentCourse.setEtime(LocalDateTime.now());
+
+        stuService.saveResult(studentCourse);
+
+        return Result.success("考试结束，结果已经上传");
     }
 
-    /**
-     * 进入考试，开始答题
-     */
-    public Result examing() {
-
-
-        return Result.success();
-    }
 
 }

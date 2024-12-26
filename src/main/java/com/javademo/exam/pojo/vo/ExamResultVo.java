@@ -1,5 +1,4 @@
-package com.javademo.exam.pojo;
-
+package com.javademo.exam.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +9,18 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stuexam {
+public class ExamResultVo {
+
+    private int id;
+
+    private String studentName;
+
+    private String courseName;
+
     private int score;
+
     private LocalDateTime stime;
-    private LocalDateTime ftime;
-    private String student_name;
-    private String course_name;
+
+    private LocalDateTime etime;
+
 }

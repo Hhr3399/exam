@@ -2,22 +2,23 @@ package com.javademo.exam.service.impl;
 
 
 import com.javademo.exam.mapper.StuMapper;
-import com.javademo.exam.pojo.Course;
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Test;
+import com.javademo.exam.pojo.entity.Course;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.StudentCourse;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.vo.ExamResultVo;
 import com.javademo.exam.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-
+@Transactional
 @Service
 public class StuServiceImpl implements StuService {
 
     @Autowired
     private StuMapper stuMapper;
-
 
     @Override
     public void update(Stuuser stuuser) {
@@ -25,17 +26,32 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public List<Test> getCourse(Stuuser stuuser) {
-        return stuMapper.courselist(stuuser);
-    }
-
-    @Override
-    public Question getquestion(Integer questionid) {
-        return stuMapper.getquestion(questionid);
-    }
-
-    @Override
-    public Stuuser gets(Integer id) {
+    public Stuuser gets(int id) {
         return stuMapper.gets(id);
+    }
+
+    @Override
+    public List<Question> getQuestions(String courseName) {
+        return stuMapper.getQuestions(courseName);
+    }
+
+    @Override
+    public List<Course> getCoursename(Stuuser stuuser) {
+        return stuMapper.gerCoursename(stuuser);
+    }
+
+    @Override
+    public List<ExamResultVo> getexamResults(int id) {
+        return stuMapper.getexamResults(id);
+    }
+
+    @Override
+    public ExamResultVo getsigleResult(String courseName, int id) {
+        return stuMapper.getsigleResult(courseName, id);
+    }
+
+    @Override
+    public void saveResult(StudentCourse studentCourse) {
+        stuMapper.saveResult(studentCourse);
     }
 }

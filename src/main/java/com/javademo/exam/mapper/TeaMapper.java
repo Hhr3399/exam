@@ -1,9 +1,9 @@
 package com.javademo.exam.mapper;
 
 
-import com.javademo.exam.pojo.Question;
-import com.javademo.exam.pojo.Stuexam;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Question;
+import com.javademo.exam.pojo.entity.Teauser;
+import com.javademo.exam.pojo.vo.MyStudentResultVo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -12,19 +12,27 @@ import java.util.List;
 public interface TeaMapper {
 
     /**
+     * 老师查询自己的信息
+     * @param id
+     * @return
+     */
+    @Select("select t.id,t.username,t.password,t.name,t.gender,t.tid,t.phonenumber,c.course_name,ce.college_name,t.college_id,t.course_id from teacher t, course c,college ce  where t.id=#{id} and t.course_id=c.id and t.college_id=ce.id")
+    Teauser gettea(Integer id);
+
+    /**
      * 显示该课程所有考题
      *
      * @return
      */
-    @Select("select * from question where course_id = #{courseId} ")
-    List<Question> list(Integer courseId);
+    @Select("select q.* from question q,course c where c. course_name=#{courseName} and q.course_id=c.id ")
+    List<Question> list(String courseName);
 
     /**
      * 插入考试题
      *
      * @param question
      */
-    @Insert("insert into question(content,answer,single_score,course_id) values (#{content},#{answer},#{single_score},#{courseId})")
+    @Insert("insert into question(content,answer,single_score,course_id) values (#{content},#{answer},#{singleScore},#{courseId})")
     void add(Question question);
 
 
@@ -33,7 +41,7 @@ public interface TeaMapper {
      *
      * @param question
      */
-    @Update("update question set content = #{content},answer = #{answer} ,single_score=#{single_score},course_id = #{courseId} where id = #{id}")
+    @Update("update question set content = #{content},answer = #{answer} ,single_score=#{singleScore} where id = #{id}")
     void update(Question question);
 
     /**
@@ -45,29 +53,50 @@ public interface TeaMapper {
     void delete(Integer id);
 
     /**
-     * 查询最近一次的考试相关信息
-     * @return
-     */
-    @Select("select e.id,s.student_name,c.course_name,e.score,e.stime,e.ftime from stuexam e,student s,course c\n" +
-            "WHERE e.s_id=s.id and e.course_id=c.id and e.id IN (SELECT MAX(e.id)\n" +
-            "             FROM stuexam e\n" +
-            "             GROUP BY e.s_id, e.course_id)")
-    List<Stuexam> listscore();
-
-
-    /**
      * 老师编辑自己信息
      * @param teauser
      */
     @Update("update teacher set name = #{name},gender = #{gender} ,phonenumber=#{phonenumber},tid=#{tid},college_id=#{collegeId},course_id = #{courseId} where id = #{id}")
     void tupdate(Teauser teauser);
 
-    /**
-     * 某考生的课程考试情况
-     * @param id
-     * @return
-     */
-    @Select("select s.student_name,c.course_name,e.score,e.stime,e.ftime " +
-            "from stuexam e,student s,course c where e.s_id=s.id and e.course_id=c.id and e.s_id=#{id}")
-    List<Stuexam> getsexam(Integer id);
+    @Select("SELECT s.student_name,\n" +
+            "       s.gender,\n" +
+            "       s.phonenumber,\n" +
+            "       c.college_name,\n" +
+            "       co.course_name,\n" +
+            "       sc.score,\n" +
+            "       sc.stime,\n" +
+            "       sc.etime\n" +
+            "FROM student_course sc\n" +
+            "JOIN student s ON s.id = sc.s_id\n" +
+            "JOIN course co ON co.id = sc.c_id\n" +
+            "JOIN college c ON c.id = s.college_id\n" +
+            "WHERE co.id = #{courseid}" +
+            "GROUP BY s.student_name, s.gender, s.phonenumber, c.college_name, co.course_name, sc.score, sc.stime, sc.etime\n" +
+            "ORDER BY  sc.score DESC")
+    List<MyStudentResultVo> getStuResult(Integer courseid);
+
+
+    @Select("SELECT s.student_name,\n" +
+            "       s.gender,\n" +
+            "       s.phonenumber,\n" +
+            "       c.college_name,\n" +
+            "       sc.score,\n" +
+            "       co.course_name,\n" +
+            "       sc.stime,\n" +
+            "       sc.etime\n" +
+            "FROM student_course sc\n" +
+            "JOIN student s ON s.id = sc.s_id\n" +
+            "JOIN course co ON co.id = sc.c_id\n" +
+            "JOIN college c ON c.id = s.college_id\n" +
+            "WHERE co.id = 1\n" +
+            "  AND sc.score = (\n" +
+            "      SELECT MAX(sc2.score)\n" +
+            "      FROM student_course sc2\n" +
+            "      JOIN student s2 ON s2.id = sc2.s_id\n" +
+            "      WHERE s2.student_name = s.student_name\n" +
+            "        AND sc2.c_id = co.id\n" +
+            "  )\n" +
+            "ORDER BY s.student_name, sc.score DESC;")
+    List<MyStudentResultVo> getStuMaxResult(Integer courseid);
 }

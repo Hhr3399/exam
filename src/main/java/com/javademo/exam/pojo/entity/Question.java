@@ -1,4 +1,4 @@
-package com.javademo.exam.pojo;
+package com.javademo.exam.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
-    private Integer id;
+    private int id;
     private String content;
     private String answer;
-    private Integer single_score;
-    private Integer courseId;
+    private int singleScore;
+    private int courseId;
+    private String courseName;
 
 }

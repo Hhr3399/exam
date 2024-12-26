@@ -1,7 +1,7 @@
 package com.javademo.exam.mapper;
 
-import com.javademo.exam.pojo.Stuuser;
-import com.javademo.exam.pojo.Teauser;
+import com.javademo.exam.pojo.entity.Stuuser;
+import com.javademo.exam.pojo.entity.Teauser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,7 +14,7 @@ public interface RegisterMapper {
 
 
     @Insert("insert into student(username,password,student_name,gender,phonenumber,sid,college_id) " +
-            "values (#{username},#{password},#{student_name},#{gender},#{phonenumber},#{sid},#{collegeId})")
+            "values (#{username},#{password},#{studentName},#{gender},#{phonenumber},#{sid},#{collegeId})")
     void add(Stuuser stuuser);
 
 
