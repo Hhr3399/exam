@@ -1,6 +1,7 @@
 package com.javademo.exam.controller;
 
 
+import com.javademo.exam.Utils.BcryptUtils;
 import com.javademo.exam.pojo.entity.Result;
 import com.javademo.exam.pojo.entity.Stuuser;
 import com.javademo.exam.pojo.entity.Teauser;
@@ -25,6 +26,7 @@ public class RegisterController {
         if (stuuser1 != null) {
             return Result.error("该用户已存在");
         } else {
+            stuuser.setPassword(BcryptUtils.hashPassword(stuuser.getPassword()));
             registerService.add(stuuser);
             return Result.success("注册成功");
         }

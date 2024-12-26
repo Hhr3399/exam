@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
-    private Integer id;
+    private int id;
     private String content;
     private String answer;
     private int singleScore;

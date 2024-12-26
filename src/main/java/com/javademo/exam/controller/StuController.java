@@ -49,9 +49,7 @@ public class StuController {
 
     /**
      * 学生编辑个人信息
-     *
      * @param stuuser
-     * @param req
      * @return
      */
     @PutMapping("/supdate")
@@ -97,6 +95,9 @@ public class StuController {
     public Result getsingleResult(@PathVariable String courseName, @PathVariable int id) {
 
         ExamResultVo examResultVo = stuService.getsigleResult(courseName, id);
+        if (examResultVo==null){
+            return Result.error("该课程还未考试");
+        }
         return Result.success(examResultVo);
 
     }

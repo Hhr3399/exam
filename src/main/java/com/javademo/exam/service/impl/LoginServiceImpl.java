@@ -7,6 +7,9 @@ import com.javademo.exam.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
@@ -14,7 +17,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Stuuser slogin(Stuuser stuuser) {
-
+        System.out.println(stuuser);
         return loginMapper.getBynp(stuuser);
     }
 

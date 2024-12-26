@@ -6,7 +6,10 @@ import com.javademo.exam.pojo.entity.Teauser;
 import com.javademo.exam.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+
+@Transactional
 @Service
 public class RegisterServiceImpl implements RegisterService {
    @Autowired

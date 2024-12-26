@@ -1,6 +1,7 @@
 package com.javademo.exam.controller;
 
 
+import com.javademo.exam.Utils.BcryptUtils;
 import com.javademo.exam.Utils.JwtUtils;
 import com.javademo.exam.common.JwtClaimsConstant;
 import com.javademo.exam.pojo.entity.Result;
@@ -27,24 +28,33 @@ public class LoginController {
     private JwtProperties jwtProperties;
     @PostMapping("/slogin")
     public Result login(@RequestBody Stuuser stuuser) {
+        try {
+            Stuuser stuuser1 = loginService.slogin(stuuser);
+            if (stuuser1 == null) {
+                return Result.error("用户不存在");
+            }
 
-        Stuuser stuuser1=loginService.slogin(stuuser);
+            //boolean flag = BcryptUtils.verifyPassword(stuuser.getPassword(), stuuser1.getPassword());
 
-        /**
-         * 登陆成功，生成令牌，下发令牌
-         */
-        if (stuuser1 != null){
-            String userId= stuuser1.getSid();
-            Map<String, Object> claims = new HashMap<>();
-            claims.put(JwtClaimsConstant.USER_ID, userId);
-            String token = JwtUtils.createJWT(
-                    jwtProperties.getSecretKey(),
-                    jwtProperties.getTtl(),
-                    claims);
-            return Result.success(token);//以后前端发送的每一次请求，在请求头中会携带token（存储着jwt令牌）
+            if (stuuser1!=null) {
+                String userId = stuuser1.getSid();
+                Map<String, Object> claims = new HashMap<>();
+                claims.put(JwtClaimsConstant.USER_ID, userId);
+                String token = JwtUtils.createJWT(
+                        jwtProperties.getSecretKey(),
+                        jwtProperties.getTtl(),
+                        claims);
+                // 返回成功结果
+                return Result.success(token);
+            } else {
+                return Result.error("密码错误");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("系统错误: " + e.getMessage());
         }
-        return Result.error("用户名或密码错误");
     }
+
 
 
     @PostMapping("/tlogin")

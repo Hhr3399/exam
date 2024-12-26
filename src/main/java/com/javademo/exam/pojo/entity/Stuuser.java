@@ -16,6 +16,5 @@ public class Stuuser {
     private String phonenumber;
     private String sid;
     private int collegeId;
-    private String collegeName;
 
 }
